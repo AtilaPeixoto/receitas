@@ -1,6 +1,6 @@
 
 {% if user.is_authenticated %}
-<h1>Você está logado</h1>
+<h1>Você está logado, {{user.username}}</h1>
 <a  href="{% url 'logout' %}">Logout</a>
 
 {% else %}
