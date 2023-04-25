@@ -37,6 +37,14 @@ def nova_receita(request):
     
 @login_required   
 def gerenciar_receitas(request):
+    """_summary_ Busca das receitas cadastradas pelo usuario logado. poderá alterar e excluir
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_ pagina HTML com as receitas do usuario logado 
+    """
     if request.method =='GET':
         titulo = request.GET.get('titulo')
         receitas = Receita.objects.all()
@@ -49,4 +57,20 @@ def gerenciar_receitas(request):
     
     
 def escolha_receita(request):
-    return HttpResponse("escolha_receita")
+    """_summary_objetivo buscar receitas de todos os usuarios para a escolha da que agradar. 
+    nao deve dar o direito de alterar ou excluir apenas vizualizar
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_pagina HTML com as receitas de nome equivalente para VISUALIZAÇÃO
+    """
+    if request.method == 'GET':
+        titulo = request.GET.get('titulo')
+        receitas = Receita.objects.all()
+        
+        if titulo:
+            receitas = receitas.filter(titulo__constants=titulo)
+        # return render(request, 'escolha_receita.html, {'receitas': receitas})
+        return HttpResponse("escolha_receita")
