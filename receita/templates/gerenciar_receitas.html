@@ -1,0 +1,19 @@
+{% load static %}
+<h1> Gerenciar suas receitas </h1>
+<a href="{% url 'nova_receita'  %}">Nova Receita</a>
+
+{% if receitas %}
+    {% for receita in receitas %}
+        <p>Título: {{receita.titulo}}</p>
+        <p>Tempo Preparação:{{receita.tempo_preparacao }} min</p>
+        <p>Autor:{{receita.autor}}</p>
+        <p>Serve: {{receita.serve_pessoas}} pessoas</p>
+        <p>Publicada: {{receita.publicada}}</p>
+        <a href="{% url 'editar_receita' receita.id  %}">Editar</a>
+        <a href="{% url 'deletar_receita' receita.id %}">Deletar</a>
+        <h1>----------</h1>
+    {% endfor %}
+  
+{% else %}
+<h1> Você não tem receitas cadastradas </h1>
+{% endif %}

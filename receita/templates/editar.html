@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Nova Receita</title>
+        <title>Editar Receita</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
@@ -25,33 +25,32 @@
                                 </div>
                             {% endfor %}
                         {% endif %}
-                        <h2>Criar Nova Receita</h2>
+                        <h2>Edite sua Receita</h2>
                         <p>Estou com Fome.</p>
                         <hr>
-                        <form action='{% url "nova_receita" %}' method="POST">{% csrf_token %}
+                        <form action='{% url "atualizar_receita" receita.id %}' method="POST">{% csrf_token %}
                             <span>Titulo:</span>
-                            <input type="text" class="form-control"  name="titulo">
+                            <input type="text" class="form-control" VALUE="{{receita.titulo}}" name="titulo">
                             <br>
                             <span>Descricao:</span>
-                            <input type="msg" class="form-control" name="descricao">
+                            <input type="msg" class="form-control" VALUE="{{receita.descricao}}" name="descricao">
                             <br>
                             <span>Tempo de Preparação:</span>
-                            <input type="number" class="form-control" name="tempo_preparacao">
+                            <input type="number" class="form-control" VALUE="{{receita.tempo_preparacao}}"name="tempo_preparacao">
                             <br>
                             <span>Serve:</span>
-                            <input type="number" class="form-control" name="serve_pessoas">
+                            <input type="number" class="form-control" VALUE="{{receita.serve_pessoas}}"name="serve_pessoas">
                             <br>
                             <span>Imagem:</span>
-                            <input type="file" class="form-control" name="imagem">
+                            <input type="file" class="form-control" VALUE= "{{receita.imagem}}"name="imagem">
                             <br>
                             <span>Publicar:</span>
                             <input type="RADIO" name="publicada" VALUE="True"> Sim
                             <input type="RADIO" name="publicada" VALUE="False"> Não
                             <br>
                             <div class="row">
-                            <input type="submit" value="SALVAR" class="btn-custom-primary">
-                        
-                            <a href="{%url 'nova_receita' %}" class="link-float"></a>
+                            <input type="submit" value="Salvar Atualização" class="btn-custom-primary">
+
                         </form>
                     </div>
                 </div>
