@@ -5,6 +5,11 @@
 {% if receitas %}
     {% for receita in receitas %}
         <p>Título: {{receita.titulo}}</p>
+        {% if receita.imagem == null %}
+            <img src="media/imagens/sem_imagem.png" alt=""> 
+        {% else %}
+            <img src="media/imagens/{{receita.imagem}}" alt="">
+        {% endif %}
         <p>Tempo Preparação:{{receita.tempo_preparacao }} min</p>
         <p>Autor:{{receita.autor}}</p>
         <p>Serve: {{receita.serve_pessoas}} pessoas</p>

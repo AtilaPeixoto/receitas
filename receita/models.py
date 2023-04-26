@@ -9,6 +9,6 @@ class Receita(models.Model):
     serve_pessoas = models.IntegerField()
     serve_porcoes = models.CharField(max_length=60)
     publicada = models.BooleanField(default=False)
-    imagem = models.ImageField(upload_to='imagens')
+    imagem = models.ImageField(upload_to='imagens', blank=False)
     autor = models.ForeignKey(User,on_delete=models.CASCADE, blank=False)
 

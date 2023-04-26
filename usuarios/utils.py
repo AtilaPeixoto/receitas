@@ -16,3 +16,28 @@ def validacao(request, senha, confirmar_senha):
             return False 
         
         return True
+
+
+
+def validacao_campo(request,titulo,descricao,imagem):
+    
+    if not titulo.strip():
+        messages.add_message(request, constants.ERROR, 'Campo titulo não pode ficar em branco!')
+        return False
+    if not descricao.strip():
+        messages.add_message(request, constants.ERROR, 'Campo descrição não pode ficar em branco!')
+        return False
+    if not imagem.strip():
+        messages.add_message(request, constants.ERROR, 'Campo imagem não pode ficar em branco!')
+        return False
+    
+    return True
+
+
+def validacao_campo_int(request,tempo, serve):
+    
+    if int(tempo) < 0 or int(serve) < 0:
+        messages.add_message(request, constants.ERROR, 'Não pode haver valor negativo!')
+        return False
+    
+    return True

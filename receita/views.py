@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Receita
 from django.contrib import messages
 from django.contrib.messages import constants
+from usuarios.utils import validacao_campo
+from usuarios.utils import validacao_campo_int
 
 
 #jogar as receitas publicadas de quem ta logado na home, junto com as receitas padroes pre-cadastradas por nós
@@ -19,28 +21,33 @@ def nova_receita(request):
         titulo = request.POST.get('titulo')
         descricao = request.POST.get('descricao')
         tempo_preparacao = request.POST.get('tempo_preparacao')
-        serve_pessoas = request.POST.get('serve_pessoas')
-        valor = request.POST.get('publicada')
-        if valor == "True":
-            publicada = True
-        else:
-            publicada = False
+        serve_pessoas = request.POST.get('serve_pessoas')    
+        publicada = request.POST.get('publicada')       
         imagem = request.POST.get('imagem')
         
-    receita = Receita(
-        autor=request.user,
-        titulo=titulo,
-        descricao=descricao,
-        tempo_preparacao=tempo_preparacao,
-        serve_pessoas=serve_pessoas,
-        publicada=publicada,
-        imagem=imagem,
-    )
-    
-    receita.save()
-    
-    messages.add_message(request, constants.SUCCESS, 'Receita cadastrada com sucesso!!!')
-    return redirect('gerenciar_receitas')
+        if not validacao_campo_int(request, tempo_preparacao, serve_pessoas):      
+            return redirect('nova_receita')  
+        if not validacao_campo(request,titulo, descricao, imagem):
+            return redirect('nova_receita')
+        
+        try:
+            receita = Receita(
+                autor=request.user,
+                titulo=titulo,
+                descricao=descricao,
+                tempo_preparacao=tempo_preparacao,
+                serve_pessoas=serve_pessoas,
+                publicada=publicada,
+                imagem=imagem,
+            )
+        
+            receita.save()
+        except:
+            messages.add_message(request, constants.ERROR, 'Alguma opção de publicar deve ser escolhida!')
+            return redirect('nova_receita')
+        
+        messages.add_message(request, constants.SUCCESS, 'Receita cadastrada com sucesso!!!')
+        return redirect('gerenciar_receitas')
     
     
     
@@ -51,7 +58,11 @@ def gerenciar_receitas(request):
         return render(request, 'gerenciar_receitas.html', {'receitas': receitas})
     
  
- # fazer os campos de imagem e publicada serem editados
+""" 
+Quando vai atualizar uma receita a imagem some e ao voltar para pagina de gerecianmento
+de receitas e perdido a imagem. Toda vida q entra em atualizar tem q escolher imagem de novo
+
+"""
 @login_required  
 def editar_receita(request,receita_id):
     receita = get_object_or_404(Receita,pk=receita_id)
@@ -66,7 +77,9 @@ def atualizar_receita(request, receita_id):
         receita.titulo = request.POST['titulo']
         receita.descricao = request.POST['descricao']
         receita.tempo_preparacao = request.POST['tempo_preparacao']
-        receita.serve_pessoas = request.POST['serve_pessoas']        
+        receita.serve_pessoas = request.POST['serve_pessoas']  
+        receita.publicada = request.POST['publicada'] 
+        receita.imagem = request.POST['imagem']      
         receita.save()
         messages.add_message(request, constants.SUCCESS, 'Receita Atualizada!!!')
         return redirect('gerenciar_receitas')

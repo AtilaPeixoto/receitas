@@ -42,11 +42,16 @@
                             <input type="number" class="form-control" VALUE="{{receita.serve_pessoas}}"name="serve_pessoas">
                             <br>
                             <span>Imagem:</span>
-                            <input type="file" class="form-control" VALUE= "{{receita.imagem}}"name="imagem">
+                            <input type="file" class="form-control" name="imagem">
                             <br>
                             <span>Publicar:</span>
-                            <input type="RADIO" name="publicada" VALUE="True"> Sim
-                            <input type="RADIO" name="publicada" VALUE="False"> Não
+                            {% if receita.publicada %}
+                            <input type="RADIO" name="publicada" VALUE=True checked> Sim
+                            <input type="RADIO" name="publicada" VALUE=False > Não
+                            {% else %}
+                            <input type="RADIO" name="publicada" VALUE=True> Sim
+                            <input type="RADIO" name="publicada" VALUE=False checked> Não
+                            {% endif %}
                             <br>
                             <div class="row">
                             <input type="submit" value="Salvar Atualização" class="btn-custom-primary">
