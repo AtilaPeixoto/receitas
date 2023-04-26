@@ -1,11 +1,19 @@
 {% load static %}
 <h1> Gerenciar suas receitas </h1>
 <a href="{% url 'nova_receita'  %}">Nova Receita</a>
+{% if messages %}
+    <br>
+    {% for message in messages %}
+        <div class="alert {{message.tags}}">
+        {{message}}
+        </div>
+    {% endfor %}
+{% endif %}
 
 {% if receitas %}
     {% for receita in receitas %}
         <p>Título: {{receita.titulo}}</p>
-        {% if receita.imagem == null %}
+        {% if not receita.imagem %}
             <img src="media/imagens/sem_imagem.png" alt=""> 
         {% else %}
             <img src="media/imagens/{{receita.imagem}}" alt="">

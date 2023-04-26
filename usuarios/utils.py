@@ -41,3 +41,10 @@ def validacao_campo_int(request,tempo, serve):
         return False
     
     return True
+
+def validacao_img(campo):
+    
+     if not campo.strip():
+         return False
+     
+     return True

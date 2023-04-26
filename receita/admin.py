@@ -4,3 +4,4 @@ from .models import Receita
 @admin.register(Receita)
 class Receita(admin.ModelAdmin):
     list_display = ['titulo', 'publicada', 'autor',]
+    list_filter = ['autor', 'publicada']

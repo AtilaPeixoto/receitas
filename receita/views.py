@@ -4,9 +4,15 @@ from django.contrib.auth.decorators import login_required
 from .models import Receita
 from django.contrib import messages
 from django.contrib.messages import constants
-from usuarios.utils import validacao_campo
-from usuarios.utils import validacao_campo_int
+from usuarios.utils import validacao_campo, validacao_campo_int, validacao_img
 
+
+""" 
+Quando vai atualizar uma receita a imagem some e ao voltar para pagina de gereciamento
+de receitas é perdido a imagem(o campo fica None). Toda vida q entra em atualizar tem q escolher imagem de novo,
+pq se não o campo fica sem
+
+"""
 
 #jogar as receitas publicadas de quem ta logado na home, junto com as receitas padroes pre-cadastradas por nós
 def home(request):
@@ -58,11 +64,6 @@ def gerenciar_receitas(request):
         return render(request, 'gerenciar_receitas.html', {'receitas': receitas})
     
  
-""" 
-Quando vai atualizar uma receita a imagem some e ao voltar para pagina de gerecianmento
-de receitas e perdido a imagem. Toda vida q entra em atualizar tem q escolher imagem de novo
-
-"""
 @login_required  
 def editar_receita(request,receita_id):
     receita = get_object_or_404(Receita,pk=receita_id)
@@ -78,8 +79,12 @@ def atualizar_receita(request, receita_id):
         receita.descricao = request.POST['descricao']
         receita.tempo_preparacao = request.POST['tempo_preparacao']
         receita.serve_pessoas = request.POST['serve_pessoas']  
-        receita.publicada = request.POST['publicada'] 
-        receita.imagem = request.POST['imagem']      
+        receita.publicada = request.POST['publicada']   
+        imagem = request.POST['imagem']
+         
+        if validacao_img(imagem):
+              receita.imagem = imagem 
+              
         receita.save()
         messages.add_message(request, constants.SUCCESS, 'Receita Atualizada!!!')
         return redirect('gerenciar_receitas')
@@ -87,4 +92,5 @@ def atualizar_receita(request, receita_id):
 def deletar_receita(request, receita_id):
     receita = get_object_or_404(Receita,pk=receita_id)
     receita.delete()
+    messages.add_message(request, constants.INFO, 'Receita Deletada!')
     return redirect('gerenciar_receitas')
