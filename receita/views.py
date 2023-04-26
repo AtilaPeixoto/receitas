@@ -7,12 +7,6 @@ from django.contrib.messages import constants
 from usuarios.utils import validacao_campo, validacao_campo_int, validacao_img
 
 
-""" 
-Quando vai atualizar uma receita a imagem some e ao voltar para pagina de gereciamento
-de receitas é perdido a imagem(o campo fica None). Toda vida q entra em atualizar tem q escolher imagem de novo,
-pq se não o campo fica sem
-
-"""
 
 #jogar as receitas publicadas de quem ta logado na home, junto com as receitas padroes pre-cadastradas por nós
 def home(request):
@@ -89,8 +83,22 @@ def atualizar_receita(request, receita_id):
         messages.add_message(request, constants.SUCCESS, 'Receita Atualizada!!!')
         return redirect('gerenciar_receitas')
 
+@login_required  
 def deletar_receita(request, receita_id):
     receita = get_object_or_404(Receita,pk=receita_id)
     receita.delete()
     messages.add_message(request, constants.INFO, 'Receita Deletada!')
     return redirect('gerenciar_receitas')
+
+
+'''def escolha_receita(request):
+    return HttpResponse('Escolha')
+
+    if request.method == 'GET':
+        titulo = request.GET.get('titulo')
+        receitas = Receita.objects.all()
+
+        if titulo:
+            receitas = receitas.filter(titulo__constants=titulo)
+        # return render(request, 'escolha_receita.html, {'receitas': receitas})
+        return HttpResponse("escolha_receita") '''
