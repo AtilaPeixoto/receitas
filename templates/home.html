@@ -1,12 +1,23 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+{% block 'head' %}
 
-{% if user.is_authenticated %}
-<h1>Você está logado, {{user.username}}</h1>
-<a  href="{% url 'gerenciar_receitas' %}">Suas Receitas</a>
-<br>
-<a  href="{% url 'logout' %}">Logout</a>
+    <link href="{% static 'geral/css/base.css' %}" rel='stylesheet'>
 
-{% else %}
-<h1>Você não está logado</h1>
-<a href="{% url 'login' %}">Fazer Login</a>
+    {% if user.is_authenticated %}
+    <h1>Você está logado, {{user.username}}</h1>
+    <a  href="{% url 'gerenciar_receitas' %}">Suas Receitas</a>
+    <br>
+    <a  href="{% url 'logout' %}">Logout</a>
 
-{% endif %}
+    {% else %}
+    <h1>Você não está logado</h1>
+    <a href="{% url 'login' %}">Fazer Login</a>
+
+    {% endif %} 
+
+{% endblock 'head' %}
+
+{% block 'body' %}
+
+{% endblock 'body' %}
