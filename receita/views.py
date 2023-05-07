@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Receita
 from django.contrib import messages
@@ -60,13 +59,13 @@ def gerenciar_receitas(request):
  
 @login_required  
 def editar_receita(request,receita_id):
-    receita = get_object_or_404(Receita,pk=receita_id)
+    receita = get_object_or_404(Receita, pk=receita_id)
     return render(request, 'editar.html', {'receita': receita })
  
  
 @login_required   
 def atualizar_receita(request, receita_id):
-    receita = get_object_or_404(Receita,pk=receita_id)
+    receita = get_object_or_404(Receita, pk=receita_id)
     
     if request.method == 'POST':
         receita.titulo = request.POST['titulo']
